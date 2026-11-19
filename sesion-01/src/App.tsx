@@ -1,4 +1,3 @@
-
 import React from 'react';
 import TaskLogging from './TaskLogging';
 
