@@ -5,8 +5,14 @@ const Reloj: React.FC = () => {
   // Estado de la hora actual
   const [horaActual, setHoraActual] = useState<Date>(new Date());
 
-  // Estado de los instantes guardados
-  const [instantes, setInstantes] = useState<Date[]>([]);
+  // Inicializar los instantes desde localStorage
+  const [instantes, setInstantes] = useState<Date[]>(() => {
+    const saved = localStorage.getItem('instants');
+
+    return saved ? JSON.parse(saved).map(
+      (fecha: string) => new Date(fecha)
+    ) : [];
+  });
 
   // Actualizar el reloj cada segundo
   useEffect(() => {
@@ -15,9 +21,13 @@ const Reloj: React.FC = () => {
       setHoraActual(now);
     }, 1000);
 
-    // Limpiar el intervalo al desmontar
     return () => clearInterval(interval);
   }, []);
+
+  // Guardar los instantes en localStorage
+  useEffect(() => {
+    localStorage.setItem('instants', JSON.stringify(instantes));
+  }, [instantes]);
 
   // Guardar el instante actual
   const guardarInstante = () => {
@@ -54,3 +64,4 @@ const Reloj: React.FC = () => {
 };
 
 export default Reloj;
+
