@@ -37,6 +37,13 @@ const Reloj: React.FC = () => {
     ]);
   };
 
+  // Borrar un instante guardado
+  const borrarInstante = (index: number) => {
+    setInstantes((instantesAnteriores) =>
+      instantesAnteriores.filter((_, i) => i !== index)
+    );
+  };
+
   // Formatear la hora
   const formatoHora = (fecha: Date): string => {
     const horas = String(fecha.getHours()).padStart(2, '0');
@@ -58,10 +65,12 @@ const Reloj: React.FC = () => {
         Guardar instante
       </button>
 
-      <ListaInstantes instantes={instantes} />
+      <ListaInstantes
+        instantes={instantes}
+        onBorrar={borrarInstante}
+      />
     </div>
   );
 };
 
 export default Reloj;
-
